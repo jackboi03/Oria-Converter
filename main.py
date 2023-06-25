@@ -13,8 +13,8 @@ parser = argparse.ArgumentParser(
     prog='Oria',
     description='Convert ItemsAdder config to Oxaren config files (and vice versa)')
 
-parser.add_argument('input-dir', type=str, help='Input directory')
-parser.add_argument('output-dir', type=str, help='Output directory', default="./")
+parser.add_argument('input-dir', type=str, help='Input directory (eg: ./plugins/ItemsAdder)')
+parser.add_argument('output-dir', type=str, help='Output directory (eg: (./Oxaren)')
 
 parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")
 parser.add_argument("-ox", "--ia-to-oxaren", help="Convert ItemsAdder config to Oxaren config files",
