@@ -7,7 +7,8 @@
 Oria Converter is a converter that converts ItemsAdder configs to Oraxen configs and vice versa. 
 The focus of Oria is to make switching from ItemsAdder to Oraxen more accessible and easy, as users do not have to manually convert everything themselves.
 
-**For now, Oria can only convert item files from ItemsAdder to Oraxen and vice versa!**
-*Other config files may become available to convert in the future!*
+**For now, Oria can only convert item config files from ItemsAdder to Oraxen and vice versa!**
+
+*Other config files may become available in the future!*
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/G2G3KEEVX)
