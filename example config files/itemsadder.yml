@@ -12,8 +12,8 @@ items:
       textures:
       - item/TEST
     durability:
-      max_custom_durability: 6
-      custom_durability: 6
+      max_custom_durability: 200
+      custom_durability: 100
       disappear_when_broken: true
     item_flags:
     - HIDE_ATTRIBUTES
