@@ -13,10 +13,4 @@ durability:							durability:
       disappear_when_broken: true				
 item_flags:							ItemFlags:
     - HIDE_ATTRIBUTES						  - HIDE_ATTRIBUTES
-events_cooldown: 1						
-block:
-            placed_model:
-                type: REAL_NOTE
-                break_particles: BLOCK
-                rotx: 0
-                roty: 0
+events_cooldown: 1						-
