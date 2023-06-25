@@ -1,0 +1,76 @@
+info:
+  namespace: TEST
+items:
+  healing_crystals:
+    display_name: TEST
+    permission: TEST
+    resource:
+      material: TEST
+      model_id: 1
+      generate: true
+      model_path: item/TEST
+      textures:
+      - item/TEST
+    durability:
+      max_custom_durability: 6
+      custom_durability: 6
+      disappear_when_broken: true
+    item_flags:
+    - HIDE_ATTRIBUTES
+    events_cooldown: 1
+    events:
+      placed_block:
+        break:
+          drop_item:
+            item: rocks
+          drop_exp:
+            chance: 100
+            min_amount: 0
+            max_amount: 3
+      interact:
+        entity:
+          target_potion_effect:
+            type: GLOWING
+            duration: 70
+            amplifier: 15
+          decrement_player_stat:
+            name: mana
+            amount: 1
+        right:
+          set_block:
+            block: TEST
+            target: RELATIVE
+            decrement_amount: true
+          play_particle:
+            name: HEART
+          decrement_durability:
+            amount: 1
+          potion_effect:
+            type: REGENERATION
+            duration: 70
+            amplifier: 4
+    specific_properties:
+        block:
+            placed_model:
+                type: REAL_NOTE
+                break_particles: BLOCK
+                rotx: 0
+                roty: 0
+            cancel_drop: true
+            light_level: 12
+            break_tools_blacklist:
+            - WOODEN_PICKAXE
+            break_tools_whitelist:
+            - DIAMOND_PICKAXE
+            hardness: 2
+            blast_resistance: 1
+            no_explosion: false
+            sound:
+                break:
+                    name: BLOCK_WOOD_BREAK
+                    volume: 1
+                    pitch: 0.9
+                place:
+                    name: BLOCK_WOOD_PLACE
+                    volume: 1
+                    pitch: 0.9
