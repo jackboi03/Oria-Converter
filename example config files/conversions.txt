@@ -2,7 +2,7 @@
 
 display_name: TEST						displayname: "TEST"
 material: DIAMOND_AXE						material: DIAMOND_AXE
-model_id: 1							custom_model_data: 452
+model_id: 1							custom_model_data: 1
 generate: true							generate_model: true
 model_path: item/TEST						parent_model: "item/TEST"
 textures:							textures:
