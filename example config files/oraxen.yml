@@ -1,0 +1,92 @@
+onyx_axe:
+  displayname: "<black>Onyx Axe"
+  material: DIAMOND_AXE
+  color: 3, 252, 136
+  lore:
+  - "One line"
+  - "<green>Another line"
+  injectID: false
+  disable_enchanting: true
+  excludeFromInventory: true
+  unbreakable: true
+  unstackable: true
+  ItemFlags:
+    - HIDE_ENCHANTS
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+    - HIDE_DESTROYS
+    - HIDE_PLACED_ON
+    - HIDE_POTION_EFFECTS
+  PotionEffects:
+    - { type: WITHER,
+        duration: 200,
+        amplifier: 2,
+        ambient: false,
+        particles: true,
+        icon: true }
+  AttributeModifiers:
+    - {name: "oraxen_speed", 
+       attribute: GENERIC_MOVEMENT_SPEED, 
+       amount: 0.1, 
+       operation: 0, 
+       uuid: 3a25f0b5-dbda-4e38-b097-9e75e37ae464, 
+       slot: HAND}
+  Enchantments:
+    protection: 4
+    flame: 34
+    sharpness: 18
+  Pack:
+    generate_model: true
+    parent_model: "item/handheld"
+    custom_model_data: 452
+    textures:
+      - onyx_axe.png
+  Mechanics:
+    furniture:
+      light: 5
+      storage:
+        type: STORAGE
+        rows: 5
+        title: "<red>My Storage"
+        open_sound: entity.shulker.open
+        close_sound: entity.shulker.close
+      limited_placing:
+        roof: false
+        floor: true
+        wall: false
+        type: ALLOW
+        block_types:
+          - GRASS_BLOCK
+          - DIRT
+        block_tags:
+          - base_stone_nether
+        oraxen_blocks:
+          - chair
+          - ruby_ore
+      seat: { height: -0.5, yaw: 90 }
+      jukebox:
+        volume: 1.0
+        pitch: 1.0
+        permission: "oraxen.jukebox.play"
+      modelengine_id: name_of_your_bbmodel_file
+      rotatable: true
+      barrier: false
+      drop:
+        silktouch: false
+        loots:
+          - { oraxen_item: }
+      block_sounds:
+        place:
+            sound: block.stone.place
+            volume: 1.0
+            pitch: 0.2
+        break_sound: block.stone.break
+        hit_sound: my.custom.hitsound
+        step_sound: my.custom.stepsound
+        fall_sound: my.custom.fallsound
+    durability:
+      value: 20000
+    bedrockbreak:
+      delay: 0
+      period: 10
+      probability: 0.5
