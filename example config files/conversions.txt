@@ -7,10 +7,38 @@ generate: true							generate_model: true
 model_path: item/TEST						parent_model: "item/TEST"
 textures:							textures:
      - item/TEST						     - item/TEST
-durability:							durability:
-      max_custom_durability: 6					  value: 20000
+durability:							durability: 6
+      max_custom_durability: 6					
       custom_durability: 6					
       disappear_when_broken: true				
+unbreakable: false						unbreakable: false
+-								unstackable: false
 item_flags:							ItemFlags:
     - HIDE_ATTRIBUTES						  - HIDE_ATTRIBUTES
 events_cooldown: 1						-
+sound:								block_sounds:
+                break:						  break:
+                    name: BLOCK_WOOD_BREAK			      sound: block.wood.break
+                    volume: 1					      volume: 1.0
+                    pitch: 0.9					      pitch: 0.9
+                place:						  place:
+                    name: BLOCK_WOOD_PLACE			      sound: block.wood.place
+                    volume: 1					      volume: 1.0
+                    pitch: 0.9					      pitch: 0.9
+-								jukebox:
+-								  volume: 1.0
+-								  pitch: 1.0
+-							          permission: "oraxen.jukebox.play"
+-								modelengine_id: name_of_your_bbmodel_file
+-								rotatable: true
+-								barrier: false
+enchants:							Enchantments:
+  - protection: 4						  protection: 4
+  - flame: 34							  flame: 34
+  - sharpness: 18						  sharpness: 18
+lore:								lore:
+- 'One line'							- "One line"
+- '&2Another line'						- "<green>Another line"
+blocked_enchants:						disable_enchanting: true
+      - ALL	
+##Oraxen only allows to disable all enchantments
