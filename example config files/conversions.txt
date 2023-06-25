@@ -1,0 +1,16 @@
+	ItemsAdder							Oraxen
+
+display_name: TEST						displayname: "TEST"
+material: DIAMOND_AXE						material: DIAMOND_AXE
+model_id: 1							custom_model_data: 452
+generate: true							generate_model: true
+model_path: item/TEST						parent_model: "item/TEST"
+textures:							textures:
+     - item/TEST						     - item/TEST
+durability:							durability:
+      max_custom_durability: 6					  value: 20000
+      custom_durability: 6					
+      disappear_when_broken: true				
+item_flags:							ItemFlags:
+    - HIDE_ATTRIBUTES						  - HIDE_ATTRIBUTES
+events_cooldown: 1						

@@ -1,7 +1,7 @@
 onyx_axe:
   displayname: "<black>Onyx Axe"
   material: DIAMOND_AXE
-  color: 3, 252, 136
+  color: 1, 1, 1
   lore:
   - "One line"
   - "<green>Another line"
@@ -19,8 +19,8 @@ onyx_axe:
     - HIDE_POTION_EFFECTS
   PotionEffects:
     - { type: WITHER,
-        duration: 200,
-        amplifier: 2,
+        duration: 1,
+        amplifier: 1,
         ambient: false,
         particles: true,
         icon: true }
