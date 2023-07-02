@@ -5,10 +5,14 @@ import yaml
 import typing
 import logging
 import tqdm
+from uuid import uuid4 as uuid_func
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     datefmt='%m-%d %H:%M')
 logger = logging.getLogger(__name__)
+
+
+ITEMSADDER_INTERNAL_NAMESPACES = ["_common", "_iainternal"]
 
 
 def get_parser() -> argparse.ArgumentParser:
@@ -70,24 +74,104 @@ def get_yml_dicts(files: typing.List[str]) -> typing.List[typing.Dict]:
     return dicts
 
 
-def from_oxaren(itemsadder_configs: typing.List[typing.Dict]) -> typing.List[typing.Dict]:
+def from_oxaren(oxaren_configs: typing.List[typing.Dict]) -> typing.List[typing.Dict]:
     """
     Convert Oxaren config files to ItemsAdder config
-    :param itemsadder_configs: List of dictionaries
-    :return: List of dictionaries
-    """
-    # TODO: Implement
-    return itemsadder_configs
-
-
-def from_ia(oxaren_configs: typing.List[typing.Dict]) -> typing.List[typing.Dict]:
-    """
-    Convert ItemsAdder config to Oxaren config files
     :param oxaren_configs: List of dictionaries
     :return: List of dictionaries
     """
     # TODO: Implement
     return oxaren_configs
+
+
+def from_ia(itemsadder_configs: typing.List[typing.Dict]) -> typing.List[typing.Dict]:
+    """
+    Convert ItemsAdder config to Oxaren config files
+    :param itemsadder_configs: List of dictionaries
+    :return: List of dictionaries
+    """
+    # TODO: Implement
+
+    attribute_modifier_translation = {
+        'attackDamage': 'GENERIC_ATTACK_DAMAGE',
+        'attackSpeed': 'GENERIC_ATTACK_SPEED',
+        'maxHealth': 'GENERIC_MAX_HEALTH',
+        'movementSpeed': 'GENERIC_MOVEMENT_SPEED',
+        'armor': 'GENERIC_ARMOR',
+        'armorToughness': 'GENERIC_ARMOR_TOUGHNESS',
+        'attackKnockback': 'GENERIC_ATTACK_KNOCKBACK',
+        'luck': 'GENERIC_LUCK',
+        'knockbackResistance': 'GENERIC_KNOCKBACK_RESISTANCE'
+    }
+
+    namespaced_dict = {}  # Every name space is a key, and the value is a list of items
+    for config in itemsadder_configs:
+        namespace = config['info']['namespace']
+
+        if namespace in ITEMSADDER_INTERNAL_NAMESPACES:
+            continue  # Skip internal namespaces
+
+        if namespace not in namespaced_dict:
+            namespaced_dict[namespace] = []
+
+        namespaced_dict[namespace].append(config)  # Add the item to the list of items for that namespace
+    converted_name_spaces = {}
+    for namespace in namespaced_dict:
+        logger.debug('Namespace: %s', namespace)
+        converted_name_spaces[namespace] = []
+        for config in namespaced_dict[namespace]:
+            # Here we do item conversions
+            if "items" in config.keys():
+                for item in config["items"]:
+                    item_name = item['display_name']
+                    logger.debug('Item: %s', item)
+                    try:
+                        converted_item_attributes = {
+                            'displayname': item['display_name'],
+                            'material': item['resource']['material'],
+                            'Pack': {
+                                'generate_model': item['resource']['generate'],
+                                # TODO: Find a way to add Oxaren "parent_model" value.
+                                'textures': item['resource']['textures']
+                            },
+                            'Mechanics': [],
+                            'AttributeModifiers': []
+                        }
+                    except KeyError as e:
+                        logger.error(f"The item {item_name} is missing the required key {e}")
+                        continue
+                    logger.debug(f"Required attributes: {converted_item_attributes}")
+
+                    if "durability" in item.keys():
+                        converted_item_attributes['Mechanics'].append({
+                            'durability': {'value': item['durability']['max_custom_durability']}
+                        })
+
+                    if 'lore' in item.keys():
+                        converted_item_attributes['lore'] = item['lore']
+
+                    if 'enchants' in item.keys():
+                        pass
+
+                    if "attribute_modifiers" in item.keys():
+                        for modifier_hand in item['attribute_modifiers'].keys():
+                            for modifier in modifier_hand.keys():
+                                translated_modifier = attribute_modifier_translation[modifier]
+                                converted_item_attributes['AttributeModifiers'].append({
+                                    'name': f"{item_name}-{modifier}",
+                                    'attribute': translated_modifier,
+                                    'amount': item['attribute_modifiers'][modifier_hand][modifier],
+                                    'operation': 0,
+                                    'uuid': str(uuid_func()),
+                                    'slot': 'HAND' if modifier_hand == "mainHand" else 'OFF_HAND'
+                                })
+
+                    if 'blocked_enchants' in item.keys():
+                        logger.warning(f"Blocking specific enchantments just isn't a thing in Oxaren, "
+                                       f"this will be ignored for: {item_name} ")
+
+                    converted_name_spaces[namespace].append({item: converted_item_attributes})
+    return itemsadder_configs
 
 
 if __name__ == "__main__":
@@ -98,6 +182,10 @@ if __name__ == "__main__":
 
     logger.debug('Input directory: %s', args.input_dir)
     logger.debug('Output directory: %s', args.output_dir)
-    configs = get_configuration_files(args.input_dir, not args.ia_to_oxaren)
+    configs = get_configuration_files(args.input_dir, args.ia_to_oxaren)
     logger.debug('Configuration files: %s', configs)
     config_dicts = get_yml_dicts(configs)
+    if args.ia_to_oxaren:
+        config_dicts = from_ia(config_dicts)
+    else:
+        config_dicts = from_oxaren(config_dicts)
